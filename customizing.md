@@ -5,11 +5,11 @@ This project is configured for a specific stop in Lafayette, but it can be easil
 ## 1️⃣ Finding Route and Stop IDs
 The URLs used in this project contain specific identifiers for the route, direction, and stop. To find IDs for a different location:
 
-1. Visit the [LTS Arrivals Page](https://lts.syncromatics.com/arrivals).
-2. Select your **Route**, **Direction**, and **Stop** from the dropdown menus.
+1. Visit the mobile page here: https://lts.syncromatics.com/m/
+2. Select **Stops** from the dropdown menus.
 3. Once the arrival times load, look at the URL in your browser's address bar.
-4. Identify the ID numbers in the URL structure: 
-   `.../routes/[ROUTE_ID]/direction/[DIRECTION_ID]/stops/[STOP_ID]/pattern`
+4. Identify the ID numbers in the URL structure: https://lts.syncromatics.com/m/routes/2050/direction/25790/stops/1633019/pattern
+   `.../m/routes/[ROUTE_ID]/direction/[DIRECTION_ID]/stops/[STOP_ID]/pattern`
 
 ## 2️⃣ Updating Data Sources
 Open `index.html` and locate the `const` definitions in the `<script>` section. Replace the existing URLs with the ones you found in the previous step:
