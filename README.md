@@ -107,6 +107,9 @@ setInterval(()=>reloadFrame("mapFrame", MAP_URL), 600000);
 
 The map itself updates live internally via Syncromatics scripts.
 
+## Reliable Data Refresh (Cache Busting)
+The kiosk ensures that commuters always see the most recent data by using a "cache-busting" technique. The background refresh script appends a unique timestamp (`?t=Date.now()`) to the URL every 30 seconds. This forces the browser to bypass any saved local files and fetch fresh coordinates and arrival predictions directly from the LTS servers.
+
 ---
 
 # Kiosk Service
