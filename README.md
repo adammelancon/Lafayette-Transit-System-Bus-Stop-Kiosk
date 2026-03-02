@@ -1,5 +1,7 @@
 # Lafayette LA Transit System Bus Stop Kiosk
 
+Via: http://www.ridelts.com/
+
 Real-time lobby kiosk displaying Lafayette Transit System (LTS) arrivals and live bus map data for:
 
 **Congress & Lafayette – Stop #1633019**  
