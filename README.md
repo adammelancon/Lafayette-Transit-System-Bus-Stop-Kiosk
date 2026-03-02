@@ -1,4 +1,5 @@
 # Lafayette LA Transit System Bus Stop Kiosk
+Running on a Raspberry Pi
 
 Via: http://www.ridelts.com/
 
