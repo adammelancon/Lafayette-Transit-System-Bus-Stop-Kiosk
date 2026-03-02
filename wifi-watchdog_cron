@@ -1,0 +1,2 @@
+#in /etc/cron.d/wifi-watchdog
+*/5 * * * * /home/adamm/kiosk/wifi-watchdog.sh
