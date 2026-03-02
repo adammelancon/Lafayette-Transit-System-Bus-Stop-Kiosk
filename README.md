@@ -1,13 +1,12 @@
 # Lafayette LA Transit System Bus Stop Kiosk
-Running on a Raspberry Pi
 
-Via: http://www.ridelts.com/
 
 Real-time lobby kiosk displaying Lafayette Transit System (LTS) arrivals and live bus map data for:
 
 **Congress & Lafayette – Stop #1633019**  
 Route: 2050  
 Direction: 25790
+Via: http://www.ridelts.com/
 
 Runs 24/7 on a Raspberry Pi with fullscreen Chromium kiosk mode.
 
