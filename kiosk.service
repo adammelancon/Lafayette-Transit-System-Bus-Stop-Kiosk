@@ -6,7 +6,7 @@ After=graphical.target network-online.target
 Wants=graphical.target network-online.target
 
 [Service]
-User=adamm
+User=pi
 Environment=DISPLAY=:0
 Environment=XDG_RUNTIME_DIR=/run/user/1000
 Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
@@ -30,7 +30,7 @@ ExecStart=/usr/bin/chromium \
   --disable-dev-shm-usage \
   --check-for-update-interval=31536000 \
   --force-device-scale-factor=1.5 \
-  file:///home/adamm/kiosk/index.html
+  file:///home/pi/kiosk/index.html
 
 Restart=always
 RestartSec=5
