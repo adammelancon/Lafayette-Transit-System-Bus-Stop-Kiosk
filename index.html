@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lafayette Public Library – Bus Arrivals + Map</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<style>
+:root {
+  --header-h: 72px;
+  --split: 60%; /* Increase for more arrivals space (e.g., 60%) */
+}
+
+/* Consistent sizing + clean reset */
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;              /* No main-page scrollbar */
+  background: #0b0f14;
+  color: #e8f0f7;
+  font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;            /* Handles mobile browser UI bars better */
+}
+
+header {
+  height: var(--header-h);
+  background: #111820;
+  color: #e8f0f7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-bottom: 1px solid #1c2632;
+  flex: 0 0 auto;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.stop {
+  font-size: 0.9em;
+  color: #9fb3c8;
+}
+
+.clock {
+  font-size: 1.3em;
+  font-variant-numeric: tabular-nums;
+}
+
+.wrap {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-rows: var(--split) 1fr;
+  min-height: calc(100dvh - var(--header-h)); /* Fill remaining space exactly */
+  overflow: hidden;              /* Prevent inner scrollbars */
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #fff;
+  /* If the embedded page scrolls, these can hide its scrollbars (same-origin permitting) */
+  scrollbar-width: none;         /* Firefox */
+  -ms-overflow-style: none;      /* IE/Edge Legacy */
+}
+iframe::-webkit-scrollbar { display: none; }
+
+
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Lafayette Transit Live Arrivals</h1>
+    <div class="stop">Congress &amp; Lafayette (Stop #1633019)</div>
+  </div>
+  <div class="clock" id="clock">--:-- --</div>
+</header>
+
+<div class="wrap">
+  <!-- TOP: arrivals (mobile /pattern) -->
+  <iframe id="arrivalsFrame"
+  sandbox="allow-scripts allow-same-origin"
+  src="https://lts.syncromatics.com/m/routes/2050/direction/25790/stops/1633019/pattern"
+  title="Bus Arrivals"></iframe>
+
+  <!-- BOTTOM: map -->
+  <iframe id="mapFrame"
+  sandbox="allow-scripts allow-same-origin"
+  src="https://lts.syncromatics.com/m/regions/0/routes/2050/direction/25790/stops/1633019/map"
+  title="Bus Map"></iframe>
+
+</div>
+
+<script>
+const ARRIVALS_URL = "https://lts.syncromatics.com/m/routes/2050/direction/25790/stops/1633019/pattern";
+const MAP_URL      = "https://lts.syncromatics.com/m/regions/0/routes/2050/direction/25790/stops/1633019/map";
+
+function updateClock(){
+  const now = new Date();
+  document.getElementById("clock").textContent =
+    now.toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
+}
+setInterval(updateClock, 1000); updateClock();
+
+// Auto-refresh with cache-buster
+function reloadFrame(id, baseUrl){
+  const f = document.getElementById(id);
+  const base = baseUrl.split("?")[0];
+  const qs   = baseUrl.includes("?") ? baseUrl.slice(baseUrl.indexOf("?")+1) + "&" : "";
+  f.src = `${base}?${qs}t=${Date.now()}`;
+}
+
+// Arrivals every 30s, map every 45s (staggered to reduce simultaneous load)
+setInterval(()=>reloadFrame("arrivalsFrame", ARRIVALS_URL), 30000);
+setInterval(()=>reloadFrame("mapFrame", MAP_URL), 600000);
+</script>
+</body>
+</html>
