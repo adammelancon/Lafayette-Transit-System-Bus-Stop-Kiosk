@@ -1,0 +1,39 @@
+#/etc/systemd/system/kiosk.service
+
+[Unit]
+Description=Chromium Kiosk (desktop session)
+After=graphical.target network-online.target
+Wants=graphical.target network-online.target
+
+[Service]
+User=adamm
+Environment=DISPLAY=:0
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+
+# Wait until X socket exists and DBus session bus is up, then add a tiny extra pause
+ExecStartPre=/bin/bash -lc 'until [ -S /tmp/.X11-unix/X0 ]; do sleep 1; done'
+#ExecStartPre=/bin/bash -lc 'until [ -S "$DBUS_SESSION_BUS_ADDRESS#/" ] 2>/dev/null || [ -S /run/user/1000/bus ]; do sleep 1;                                                                 done'
+ExecStartPre=/bin/bash -lc 'until [ -S /run/user/1000/bus ]; do sleep 1; done'
+
+ExecStartPre=/bin/sleep 3
+
+ExecStart=/usr/bin/chromium \
+  --noerrdialogs \
+  --no-first-run \
+  --no-default-browser-check \
+  --disable-infobars \
+  --kiosk \
+  --incognito \
+  --disable-geolocation \
+  --password-store=basic \
+  --disable-dev-shm-usage \
+  --check-for-update-interval=31536000 \
+  --force-device-scale-factor=1.5 \
+  file:///home/adamm/kiosk/index.html
+
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=graphical.target
